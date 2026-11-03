@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UnRepost — TikTok Repost Remover Dashboard</title>
+  <link rel="stylesheet" href="/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Top Navigation Header -->
+    <header class="app-header">
+      <div class="brand">
+        <div class="logo-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19.5 7.5V11C17.5 11 15.5 10 14 8.5V16C14 19.3 11.3 22 8 22C4.7 22 2 19.3 2 16C2 12.7 4.7 10 8 10C8.5 10 9 10.1 9.5 10.2V13.8C9 13.5 8.5 13.4 8 13.4C6.6 13.4 5.4 14.6 5.4 16C5.4 17.4 6.6 18.6 8 18.6C9.4 18.6 10.6 17.4 10.6 16V2H14.5C14.7 4.2 16.5 6.5 19.5 7.5Z" fill="url(#brand-grad)"/>
+            <path d="M17 18L22 13M22 18L17 13" stroke="#FE2C55" stroke-width="2.2" stroke-linecap="round"/>
+            <defs>
+              <linearGradient id="brand-grad" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+                <stop stop-color="#25F4EE"/>
+                <stop offset="1" stop-color="#FE2C55"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">UnRepost</h1>
+          <span class="brand-tag">Automated Repost Cleaner</span>
+        </div>
+      </div>
+
+      <div class="header-status">
+        <div class="status-pill" id="connection-pill">
+          <span class="status-dot"></span>
+          <span id="connection-text">Connecting...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Grid Content -->
+    <main class="dashboard-grid">
+      <!-- Left Column: Controls & Account Details -->
+      <section class="dashboard-col left-col">
+        <!-- Account Card -->
+        <div class="card account-card">
+          <div class="card-header">
+            <h3>TikTok Account</h3>
+            <span class="badge" id="auth-badge">Checking...</span>
+          </div>
+          <div class="account-body" id="account-body">
+            <div class="account-avatar-wrapper">
+              <img id="user-avatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23666'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Avatar">
+            </div>
+            <div class="account-info">
+              <div class="account-name" id="user-nickname">Not signed in</div>
+              <div class="account-handle" id="user-handle">Waiting for browser login</div>
+              <div class="account-meta" id="user-secuid">Please log into TikTok in the Chrome window</div>
+            </div>
+          </div>
+          <div class="account-tip" id="account-tip">
+            💡 <strong>Safe & Direct:</strong> Log in directly in the opened browser window. We never see, store, or ask for your password.
+          </div>
+          <div class="account-actions" style="margin-top: 12px; display: flex; gap: 8px;">
+            <button class="btn btn-secondary btn-sm" id="btn-scan" style="display: none; flex: 1;">
+              🔍 Scan Reposts First
+            </button>
+            <button class="btn btn-text btn-sm" id="btn-logout" style="display: none; color: #ff6b6b;">
+              Sign Out
+            </button>
+          </div>
+        </div>
+
+        <!-- Task Control Center -->
+        <div class="card control-card">
+          <div class="card-header">
+            <h3>Removal Controls</h3>
+            <span class="status-tag" id="task-status-tag">STARTING</span>
+          </div>
+
+          <!-- Alert / Status Notice Box -->
+          <div class="notice-box" id="notice-box">
+            <div class="notice-icon" id="notice-icon">ℹ️</div>
+            <div class="notice-content">
+              <div class="notice-title" id="notice-title">Engine Starting</div>
+              <div class="notice-desc" id="notice-desc">Initializing browser and loading your session...</div>
+            </div>
+          </div>
+
+          <!-- Cooldown timer indicator -->
+          <div class="cooldown-indicator" id="cooldown-wrapper" style="display: none;">
+            <div class="cooldown-bar"><div class="cooldown-progress" id="cooldown-fill"></div></div>
+            <div class="cooldown-text" id="cooldown-label">Rate limit cooldown: 60s remaining</div>
+          </div>
+
+          <!-- Explicit Confirmation Workflow -->
+          <div class="confirmation-section" id="confirmation-section">
+            <div class="scan-summary-box" id="scan-summary" style="display: none; padding: 10px 14px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; margin-bottom: 12px; font-size: 0.88rem;">
+              Target: <strong id="confirm-account-name">@user</strong> &bull; Total to remove: <strong id="confirm-count">0</strong>
+            </div>
+
+            <div class="safety-agreement">
+              <label class="checkbox-container">
+                <input type="checkbox" id="confirm-check">
+                <span class="checkmark"></span>
+                <span class="checkbox-label" id="confirm-label">
+                  I understand this will permanently remove all my TikTok reposts. My personal videos, likes, and saves will NOT be touched.
+                </span>
+              </label>
+            </div>
+
+            <button class="btn btn-primary" id="btn-start" disabled>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              <span>Confirm & Start Removal</span>
+            </button>
+          </div>
+
+          <!-- Active Execution Controls -->
+          <div class="action-btn-group" id="running-controls" style="display: none;">
+            <button class="btn btn-secondary" id="btn-pause">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>
+              </svg>
+              <span id="btn-pause-text">Pause</span>
+            </button>
+            <button class="btn btn-danger" id="btn-stop">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 6h12v12H6z"/>
+              </svg>
+              <span>Stop & Save</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Configuration Settings -->
+        <div class="card settings-card">
+          <div class="card-header">
+            <h3>Pacing & Safety Options</h3>
+          </div>
+          <div class="settings-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <label>Delay Between Removals</label>
+                <span class="setting-subtext">Randomized delay to stay well under TikTok anti-bot limits</span>
+              </div>
+              <div class="range-display">
+                <span id="delay-label">3.0s — 5.5s</span>
+              </div>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <label for="dry-run-toggle">Dry Run (Preview Only)</label>
+                <span class="setting-subtext">Scan and log reposts without deleting them</span>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="dry-run-toggle">
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-actions">
+              <button class="btn-text" id="btn-reset-history">Reset Removed Cache</button>
+              <button class="btn-text" id="btn-test-sound">Test Sound Alert</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right Column: Live Statistics, Current Item & Activity Log -->
+      <section class="dashboard-col right-col">
+        <!-- Live Metrics Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card metric-success">
+            <div class="metric-title">Confirmed Removed</div>
+            <div class="metric-value" id="metric-removed">0</div>
+            <div class="metric-footer">Permanently un-reposted</div>
+          </div>
+
+          <div class="metric-card metric-info">
+            <div class="metric-title">In Current Batch</div>
+            <div class="metric-value" id="metric-batch">0</div>
+            <div class="metric-footer">Fetched from TikTok</div>
+          </div>
+
+          <div class="metric-card metric-warning">
+            <div class="metric-title">Skipped / Unavailable</div>
+            <div class="metric-value" id="metric-skipped">0</div>
+            <div class="metric-footer">Deleted original videos</div>
+          </div>
+
+          <div class="metric-card metric-neutral">
+            <div class="metric-title">Retrying / Limit</div>
+            <div class="metric-value" id="metric-unconfirmed">0</div>
+            <div class="metric-footer">Throttled / Pending retry</div>
+          </div>
+        </div>
+
+        <!-- Currently Processing Item -->
+        <div class="card current-item-card" id="current-item-card">
+          <div class="card-header">
+            <h4>Currently Processing</h4>
+            <span class="spinner-small" id="item-spinner"></span>
+          </div>
+          <div class="item-body" id="item-body">
+            <div class="item-empty-text" id="item-empty">No item being processed right now.</div>
+            <div class="item-active-view" id="item-active" style="display: none;">
+              <div class="item-author" id="item-author">@author</div>
+              <div class="item-desc" id="item-desc">"Video caption here..."</div>
+              <div class="item-links">
+                <a href="#" target="_blank" id="item-url" class="btn-link">View Video on TikTok &nearr;</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="card log-card">
+          <div class="card-header">
+            <h3>Live Activity Log</h3>
+            <div class="log-actions">
+              <button class="btn-sm" id="btn-export-csv">Export CSV</button>
+              <button class="btn-sm" id="btn-export-json">Export JSON</button>
+              <button class="btn-sm" id="btn-clear-log">Clear View</button>
+            </div>
+          </div>
+          <div class="log-container" id="log-container">
+            <div class="log-empty">Waiting for actions to record...</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
+

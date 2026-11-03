@@ -1,0 +1,41 @@
+# Dependencies
+node_modules/
+package-lock.json.bak
+
+# Local Session & Runtime State (NEVER COMMIT)
+tiktok_session_data/
+unrepost_state.json
+cleartok_state.json
+*.session
+*.log
+unrepost_audit*.json
+cleartok_audit*.json
+*.csv
+
+# Build outputs
+dist/
+build/
+*.app/
+*.dmg
+*.zip
+*.tar.gz
+
+# Environment & local configs
+.env
+.env.local
+.env.*.local
+
+# Operating System & IDE files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+.vscode/
+.idea/
+
+# Legacy / Unused local modules
+chrome-extension/
+start.command

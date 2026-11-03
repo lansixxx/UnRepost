@@ -1,0 +1,24 @@
+{
+  "targetAccount": {
+    "username": "example_user",
+    "secUid": "MS4wLjABAAAAmockedSecUidForDocumentationTemplate000000000000000000",
+    "detectedReposts": 42
+  },
+  "stats": {
+    "totalDetected": 42,
+    "confirmedRemoved": 0,
+    "unconfirmedOrRetrying": 0,
+    "failed": 0,
+    "skipped": 0
+  },
+  "processedItems": {
+    "7000000000000000001": {
+      "status": "CONFIRMED_REMOVED",
+      "timestamp": "2026-01-01T12:00:00.000Z",
+      "attempts": 1
+    }
+  },
+  "status": "IDLE",
+  "lastUpdated": "2026-01-01T12:00:00.000Z"
+}
+
