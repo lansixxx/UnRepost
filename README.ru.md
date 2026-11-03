@@ -40,7 +40,7 @@
 Для разработчиков и пользователей Windows/Linux:
 
 #### Системные требования
-- [Node.js](https://nodejs.org/) (версия 18 или выше)
+- [Node.js](https://nodejs.org/) (версия 20 или выше)
 - Установленный Google Chrome или Chromium
 
 #### Шаги установки

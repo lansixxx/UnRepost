@@ -42,7 +42,7 @@ For regular users on macOS who want a simple graphic application without running
 For developers or users on Windows and Linux:
 
 #### Prerequisites
-- [Node.js](https://nodejs.org/) (version 18 or higher)
+- [Node.js](https://nodejs.org/) (version 20 or higher)
 - Google Chrome or Chromium installed
 
 #### Steps

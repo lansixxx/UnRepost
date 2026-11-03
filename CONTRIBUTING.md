@@ -12,7 +12,7 @@ Thank you for your interest in contributing! This project is dedicated to provid
 ## Development Setup
 
 ### Prerequisites
-- Node.js 18 or higher
+- Node.js 20 or higher
 - Google Chrome or Chromium installed on your system
 - Git
 

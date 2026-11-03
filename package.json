@@ -1,8 +1,11 @@
 {
   "name": "unrepost",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Reliable, private, automated open-source tool to bulk-remove reposts from your TikTok account",
   "main": "unrepost.js",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "start": "node unrepost.js",
     "test": "node --test test/unrepost.test.js",

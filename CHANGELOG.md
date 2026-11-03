@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-11-04
+
+### Changed
+- **Node.js Engine Alignment**: Set explicit minimum supported Node.js version to `>=20.0.0` in `package.json` to meet Playwright dependencies.
+- **CI Test Matrix**: Removed unsupported Node.js 18 from GitHub Actions workflow; active matrix now tests Node 20.x and Node 22.x on both Ubuntu and macOS.
+- **Documentation & Launcher**: Updated documentation and macOS application launcher runtime checks to require Node.js 20 or higher.
+
 ## [1.0.0] - 2026-11-03
 
 ### Added

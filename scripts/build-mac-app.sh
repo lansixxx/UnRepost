@@ -40,9 +40,9 @@ cat << 'EOF' > "$CONTENTS_DIR/Info.plist"
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.0.0</string>
+    <string>1.0.1</string>
     <key>CFBundleVersion</key>
-    <string>1.0.0</string>
+    <string>1.0.1</string>
     <key>LSMinimumSystemVersion</key>
     <string>11.0</string>
     <key>NSHighResolutionCapable</key>
@@ -82,7 +82,16 @@ for p in "${SEARCH_PATHS[@]}"; do
 done
 
 if [ -z "$NODE_BIN" ]; then
-  RESP=$(osascript -e 'display dialog "UnRepost requires the free Node.js runtime to execute locally on your Mac.\n\nPlease install the LTS version from https://nodejs.org" with title "UnRepost - Node.js Required" buttons {"Cancel", "Download Node.js"} default button 2 with icon caution' 2>/dev/null || echo "button returned:Cancel")
+  RESP=$(osascript -e 'display dialog "UnRepost requires Node.js (version 20 or higher) to execute locally on your Mac.\n\nPlease install the LTS version from https://nodejs.org" with title "UnRepost - Node.js Required" buttons {"Cancel", "Download Node.js"} default button 2 with icon caution' 2>/dev/null || echo "button returned:Cancel")
+  if [[ "$RESP" == *"Download Node.js"* ]]; then
+    open "https://nodejs.org/"
+  fi
+  exit 1
+fi
+
+NODE_MAJOR=$("$NODE_BIN" -v | tr -d 'v' | cut -d. -f1)
+if [ "$NODE_MAJOR" -lt 20 ]; then
+  RESP=$(osascript -e "display dialog \"UnRepost requires Node.js 20 or higher (detected v$NODE_MAJOR).\n\nPlease update Node.js to the latest LTS release from https://nodejs.org\" with title \"UnRepost - Node.js Update Required\" buttons {\"Cancel\", \"Download Node.js\"} default button 2 with icon caution" 2>/dev/null || echo "button returned:Cancel")
   if [[ "$RESP" == *"Download Node.js"* ]]; then
     open "https://nodejs.org/"
   fi
